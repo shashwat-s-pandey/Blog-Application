@@ -5,6 +5,7 @@ import ChipInput from 'material-ui-chip-input'
 import Blogcard from '../components/Blogcard'
 import { getAllBlogs, getBlogBySearch } from '../api'
 import { useNavigate } from 'react-router-dom'
+// import background from '../images/blogpalace.jpeg'
 
 const Home = () => {
 
@@ -50,7 +51,7 @@ const Home = () => {
   }
   
   return (
-    <div>
+    <div style={{ backgroundImage: `url("blogpalace.jpeg")`, backgroundColor: 'rgba(0, 0, 0, 0.5)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', height: '100vh', width: '100%', zIndex: -5}}>
         <Navbar/>
         <Box sx={{padding: 4}}>
           <Box>
@@ -60,7 +61,7 @@ const Home = () => {
               variant="outlined"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              style={{marginRight: 20}}
+              style={{marginRight: 20, backgroundColor: 'rgba(255,255,255,0.9)'}}
             />
             <ChipInput
               value={tags}
@@ -68,6 +69,7 @@ const Home = () => {
               onDelete={handleDelete}
               label="Search tags"
               variant='outlined'
+              style={{backgroundColor: 'rgba(255,255,255,0.9)'}}
               // InputLabelProps={{
               //   style: {
               //     shrink: true,
@@ -123,6 +125,15 @@ const Home = () => {
                     ))
                   }
                 </Grid>
+                {/* <Grid container alignItems={'stretch'} spacing={2}>
+                  {
+                    ((blog) => (
+                      <Grid xs={12} sm={6} md={6} lg={4}>
+                        <Blogcard />
+                      </Grid>
+                    ))
+                  }
+                </Grid> */}
                 </>
               )
             }
