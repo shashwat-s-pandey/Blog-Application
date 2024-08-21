@@ -4,10 +4,12 @@ import {Routes, Route} from 'react-router-dom'
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
+import Navbar from '../components/Navbar'
 
 function App() {
   return (
     <div className="App">
+      <Navbar/>
       <Routes>
         <Route path='/' element= {<Home/>} />
         <Route path='/blog/search' element={<Home/>}></Route>
