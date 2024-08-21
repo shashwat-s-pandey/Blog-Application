@@ -26,6 +26,9 @@ const Form = () => {
             const author = localStorage.getItem("author")
             const response = await createBlog({...formData, author, tags})
             console.log("Blog created successfully", response.data)
+            if(response.status >= 200 && response.status < 300) {
+                window.location.reload()
+            }
             navigate('/')
         }
         catch(error) {

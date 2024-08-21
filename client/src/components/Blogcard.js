@@ -34,6 +34,9 @@ export default function Blogcard({data}) {
         try {
             const response = await deleteBlog(data._id)
             console.log("Blog deleted successfully!", response.data)
+            if(response.status == 200) {
+                window.location.reload()
+            }
         }
         catch(error){
             console.log("Failed: ", error.message)
@@ -59,6 +62,12 @@ export default function Blogcard({data}) {
             <Typography variant="body2" color="text.secondary">
                 {data.description}
             </Typography>
+            <Typography
+                color='text.secondary'
+                sx={{fontSize: '20px', lineHeight: '25px', margin: '5px 0', fontWeight: 400}}
+            >
+                {data.tags.map((tag) => `#${tag}`)}
+            </Typography>
         </CardContent>
         <CardActions>
             <Button size="small" onClick={handleDelete}>
@@ -76,7 +85,7 @@ export default function Blogcard({data}) {
             aria-describedby="modal-modal-description"
             >
             <Box sx={style}>
-                <EditForm />
+                <EditForm data={data}/>
             </Box>
       </Modal>
     </div>

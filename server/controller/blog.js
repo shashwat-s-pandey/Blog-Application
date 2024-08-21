@@ -57,8 +57,30 @@ export const getBlogById = async(req, res) => {
     }
 }
 
+export const getBlogBySearch = async(req, res) => {
+    const {searchQuery, tags} = req.query 
+
+    try {
+        const title = new RegExp(searchQuery, 'i')
+
+        let blogs;
+
+        if(tags) {
+            blogs = await blog.find({$or: [{title}, {tags: {$in: tags.split(',')}}]})
+        }
+        else {
+            blogs = await blog.find({title})
+        }
+
+        return res.status(200).json({blogs})
+    }
+    catch {
+        return res.status(404).json({mssg: "something went wrong"})
+    }
+}
+
 export const updateBlog = async(req, res) => {
-    const {id} = req.params.id
+    const {id} = req.params
     const {title, description, selectedFile, tags} = req.body
 
     try {
@@ -71,7 +93,7 @@ export const updateBlog = async(req, res) => {
 }
 
 export const deleteBlog = async(req, res) => {
-    const {id} = req.params
+    const { id } = req.params
 
     try {
         await blog.findByIdAndDelete(id)

@@ -2,23 +2,36 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import ChipInput from 'material-ui-chip-input'
 import FileBase from 'react-file-base64'
+import { editBlog } from '../api'
+import { useNavigate } from 'react-router-dom'
 
-const EditForm = () => {
+const EditForm = ({data}) => {
 
     const [formData, setFormData]  = useState({
-        title: '',
-        description: '',
-        selectedFile: ''
+        title: data.title,
+        description: data.description,
+        selectedFile: data.selectedFile
     })
 
-    const [tags, setTags] = useState([])
+    const [tags, setTags] = useState(data.tags)
+    const navigate = useNavigate()
 
     const handleAdd = (tag) => setTags([...tags, tag])
     const handleDelete = (tagToDelete) => setTags(tags.filter((tag) => tag!==tagToDelete))
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         console.log(formData)
         console.log(tags)
+        try {
+            const id = data._id;
+            const response = await editBlog(id, {...formData, tags})
+            console.log("Blog edited successfully", response.data)
+            window.location.reload()
+            // navigate('/')
+        }
+        catch(error) {
+            console.log("Failed: ", error.message)
+        }
     }
 
     const handleInputChange = (e) => {
