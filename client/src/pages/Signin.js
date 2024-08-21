@@ -26,6 +26,7 @@ const Signin = () => {
         try {
             const response = await signin(formData)
             console.log("Sign in successful", response.data)
+            localStorage.setItem("author", response.data.result._id.toString())
             navigate('/') // after signing in, will redirect user to home page
         }
         catch(error) {

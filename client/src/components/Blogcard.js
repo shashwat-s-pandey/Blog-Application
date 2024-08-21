@@ -10,8 +10,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit'
 import EditForm from './EditForm';
 import { Box, Modal } from '@mui/material';
+import { deleteBlog } from '../api';
 
-export default function Blogcard() {
+export default function Blogcard({data}) {
 
     const style = {
         position: 'absolute',
@@ -29,6 +30,16 @@ export default function Blogcard() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const handleDelete = async() => {
+        try {
+            const response = await deleteBlog(data._id)
+            console.log("Blog deleted successfully!", response.data)
+        }
+        catch(error){
+            console.log("Failed: ", error.message)
+        }
+    }
+
     const handleEdit = () => {
 
     }
@@ -38,20 +49,19 @@ export default function Blogcard() {
         <Card sx={{ maxWidth: 345, borderRadius: 6 }}>
         <CardMedia
             sx={{ height: 220 }}
-            image={demo}
-            title="demo"
+            image={data.selectedFile}
+            title="image"
         />
         <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-            Firen & Freeze
+                {data.title}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-            Firen (left) and Freeze (right) are the two characters of the game Little Fighter 2. Firen controls
-            the fire element and Freeze controls the ice element.
+                {data.description}
             </Typography>
         </CardContent>
         <CardActions>
-            <Button size="small">
+            <Button size="small" onClick={handleDelete}>
                 <DeleteIcon/>
             </Button>
             <Button size="small" onClick={handleOpen}>

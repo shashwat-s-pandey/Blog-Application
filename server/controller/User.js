@@ -12,8 +12,8 @@ const generateToken = (user) => {
 
 // creating the user
 export const signup = async(req, res) => {
-    const {name, email, password, confirmPassword} = req.body
-    console.log(name, email, password, confirmPassword)
+    const {email, password, confirmPassword, name} = req.body
+    console.log(email, password, confirmPassword, name)
 
     try {
         // some checks performed
@@ -29,7 +29,7 @@ export const signup = async(req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 12);
         
-        const user = await User.create({email, password: hashedPassword, name: name})
+        const user = await User.create({name: name, email, password: hashedPassword})
 
         const token = generateToken(user)
         
@@ -45,15 +45,11 @@ export const signin = async(req, res) => {
     try {
         const existingUser = await User.findOne({email}); 
 
-        if(!existingUser) {
-            res.status(500).json({mssg: "User does not exist"})
-        }
+        if(!existingUser) return res.status(404).json({mssg: "User does not exist"})
 
         const isPasswordCorrect = await bcrypt.compare(password, existingUser.password)
 
-        if(!isPasswordCorrect) {
-            return res.status(404).json({mssg: "Invalid password"})
-        }
+        if(!isPasswordCorrect) return res.status(404).json({mssg: "Invalid password"})
 
         const token = generateToken(existingUser)
 

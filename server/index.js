@@ -13,9 +13,9 @@ mongoose.connect('mongodb+srv://shashwatssp:Ssp%40mongo123@cluster0.zutey.mongod
 .catch((error)=> console.log("Error in connection", error))
 
 //middlewares
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
-// app.use(cors())
+app.use(bodyParser.json({limit: '50mb'}))
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
+app.use(cors())
 app.use(cors({
     origin: 'http://localhost:3000'
 }))

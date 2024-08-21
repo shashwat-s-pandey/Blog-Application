@@ -2,6 +2,8 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import ChipInput from 'material-ui-chip-input'
 import FileBase from 'react-file-base64'
+import { createBlog } from '../api'
+import { useNavigate } from 'react-router'
 
 const Form = () => {
 
@@ -12,13 +14,24 @@ const Form = () => {
     })
 
     const [tags, setTags] = useState([])
+    const navigate = useNavigate()
 
     const handleAdd = (tag) => setTags([...tags, tag])
     const handleDelete = (tagToDelete) => setTags(tags.filter((tag) => tag!==tagToDelete))
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         console.log(formData)
         console.log(tags)
+        try {
+            const author = localStorage.getItem("author")
+            const response = await createBlog({...formData, author, tags})
+            console.log("Blog created successfully", response.data)
+            navigate('/')
+        }
+        catch(error) {
+            console.log("Failed: ", error)
+            setFormData({title: '', description: '', selectedFile: ''}) 
+        }
     }
 
     const handleInputChange = (e) => {

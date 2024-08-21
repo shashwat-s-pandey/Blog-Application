@@ -29,14 +29,14 @@ export const createBlog = async(req, res) => {
 }
 
 export const getAllBlogs = async(req, res) => {
-    const {id} = req.params
-
     try {
-        await blog.find()
-        return res.status(200).json({mssg: "Deleted successfully"})
+        const allBlogs = await blog.find({})
+
+        return res.status(200).json(allBlogs)
     }
     catch(error) {
-        return res.status(500).json({mssg: "Something went wrong"})
+        console.error('Error fetching blogs:', error);
+        return res.status(500).json({mssg: "Something went wrong", error: error.message})
     }
 }
 
@@ -44,8 +44,13 @@ export const getBlogById = async(req, res) => {
     const {id} = req.params
 
     try {
-        await blog.findById(id)
-        return res.status(200).json({mssg: "Deleted successfully"})
+        const myBlog = await blog.findById(id)
+
+        if(!myBlog){
+            return res.status(404).json({msg: "Blog not found"});
+        }
+
+        return res.status(200).json({myBlog})
     }
     catch(error) {
         return res.status(500).json({mssg: "Something went wrong"})
@@ -53,7 +58,7 @@ export const getBlogById = async(req, res) => {
 }
 
 export const updateBlog = async(req, res) => {
-    const {id} = req.params
+    const {id} = req.params.id
     const {title, description, selectedFile, tags} = req.body
 
     try {
