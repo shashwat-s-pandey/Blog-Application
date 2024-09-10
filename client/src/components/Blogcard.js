@@ -9,7 +9,7 @@ import demo from '../images/demo.jpg';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit'
 import EditForm from './EditForm';
-import { Box, Modal } from '@mui/material';
+import { Box, Grid, Modal } from '@mui/material';
 import { deleteBlog } from '../api';
 
 export default function Blogcard({data}) {
@@ -78,6 +78,8 @@ export default function Blogcard({data}) {
             </Button>
         </CardActions>
         </Card>
+
+        
         <Modal
             open={open}
             onClose={handleClose}
