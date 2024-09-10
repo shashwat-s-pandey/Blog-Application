@@ -125,7 +125,7 @@ const Home = () => {
             Search
           </Button>
         </Box>
-        {/* <Blogcard /> */}
+
         <Grid container alignItems={"stretch"} spacing={2} m={4}>
           {searchResult.length > 0 ? (
             <>
@@ -221,14 +221,6 @@ const Home = () => {
                       </Button>
                     </CardActions>
                   </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={6} lg={4}>
-                  <Blogcard
-                    title="Blog 3"
-                    description="This is the content of Blog 3."
-                    image="images/blog3.jpg"
-                  />
                 </Grid>
               </Grid>
 
